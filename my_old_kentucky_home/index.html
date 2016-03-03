@@ -15,6 +15,22 @@
 
 <script>
 	// Complete this section and create a CSS file named style.css
+	var lyrics = document.getElementById("lyrics");
+	var music_video = document.getElementById("music_video");
+
+	music_video.addEventListener("timeupdate", function() {
+		if (music_video.currentTime > 8 && music_video.currentTime < 35) {
+			lyrics.innerHTML = "<h2> The sun shines bright in My Old Kentucky Home,'Tis summer, the people are gay; The corn-top's ripe and the meadow's in the bloom While the birds make music all the day.</h2>";
+		}
+		if (music_video.currentTime > 35 && music_video.currentTime < 64) {
+			lyrics.innerHTML = "<h2> The young folks roll on the little cabin floor, All merry, and happy and bright; By 'n' by hard times comes a knocking at the door, Then My Old Kentucky Home, good night! </h2> <p><img src='derbyhat.jpg' alt= 'hat' /></p>";
+		}
+		if (music_video.currentTime > 64 && music_video.currentTime < 90) {
+			lyrics.innerHTML = "<h2> Weep no more my lady Oh weep no more today; We will sing one song For My Old Kentucky Home For My Old Kentucky Home, far away </h2> <p><img src='corn.jpg' alt= 'corn' /></p>";
+		}
+
+	},false);
+
 </script>
 </body>
 </html>
