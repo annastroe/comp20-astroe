@@ -4,31 +4,23 @@ request = new XMLHttpRequest();
 
 request.open("GET", "data.json", true);
 
-request.onreadystatechange = myFunction;
+request.onreadystatechange = parse;
 
 request.send(null);
 
-myFunction() {
+function parse() {
 	
 	if (request.readyState == 4 && request.status == 200) {
-				result = "";
 				raw = request.responseText;
 				data = JSON.parse(raw);
-				elem = document.getElementById("1");
-				for (count=0; count < data.length; count++){
-					elem.innerHTML += "<p> data[i] </p>"
+				elem = document.getElementById("messages");
+				
+				elem.innerHTML = "<h2>" + data[0]["content"]+"</h2><p>" +data[0]["username"]+"</p>"+"<h2>"+ data[1]["content"]+"</h2><p>"+ data[1]["username"]+"</p>"; 
 				}
-				elem = document.getElementById("2");
-				for (count=0; count < data.length; count++){
-					elem.innerHTML += "<p> data[i] </p>"
-				}
+				
 	}
+	else if (request.readyState != 4 && request.status != 200)
+		elem.innerHTML = "<h2> Whoops, there is something missing! </h2>"; 
 
+};
 
-}
-
-
-
-
-
-request.send(null);
