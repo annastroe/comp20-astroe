@@ -15,12 +15,12 @@ function parse() {
 				data = JSON.parse(raw);
 				elem = document.getElementById("messages");
 				
-				elem.innerHTML = "<h2>" + data[0]["content"]+"</h2><p>" +data[0]["username"]+"</p>"+"<h2>"+ data[1]["content"]+"</h2><p>"+ data[1]["username"]+"</p>"; 
-				}
+				elem.innerHTML = "<h2>" + data[0]["content"]+"</h2><p> -" +data[0]["username"]+"</p>"+"<h2>"+ data[1]["content"]+"</h2><p> -"+ data[1]["username"]+"</p>"; 
+
 				
 	}
-	else if (request.readyState != 4 && request.status != 200)
+	else if (request.readyState != 4 && request.status != 200) {
 		elem.innerHTML = "<h2> Whoops, there is something missing! </h2>"; 
-
+	}
 };
 
