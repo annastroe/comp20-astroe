@@ -2,7 +2,7 @@
 
 var myLatitude = 0;
 var myLongitude = 0;
-var map_canvas;
+var map;
 var request = new XMLHttpRequest;
 
 function getMyLocation() {
@@ -42,10 +42,13 @@ function createMap() {
 
 		};
 
-	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	map = new google.maps.Map(document.getElementById("map"), myOptions);
 	parse();
 
 }
+
+// create icons
+
 
 
 function parse() {
@@ -54,13 +57,41 @@ function parse() {
 		raw = request.responseText;
 		data = JSON.parse(raw);
 		
+		// for loop to loop through people
+		for (int i = 0; i < data.people.length; i++) {
+			// create a marker for each person (google API)
+			marker = new google.maps.Marker({
+				position: LatLng,
+				title: data.people[i].login,
+				map: map
+				// ANYTHING ELSE????????? 
+				})
+
+			marker.setPosition(new google.maps.LatLng(lat, lng));
+		}
+		// for loop to loop through landmarks
+		for (int i = 0; i < data.landmarks.length; i++) {
+			// create a marker for each landmark
+			marker = new google.maps.Marker({
+				position: LatLng,
+				title: //TITLE??????????,
+				map: map
+				})
+
+			//map: map,
+			}
 		console.log(data);
 		
 	}
 	else if (request.readyState != 4 && request.status != 200) {
-		elem.innerHTML = "<h2> Whoops, there is something missing! </h2>"; 
+		elem.innerHTML = "<h2> Whoops, there is something wrong! </h2>"; 
 	}
 }
+
+
+//  find closest landmark
+//  haversine formula
+
 
 			/*renderMap();
 		});
@@ -92,8 +123,3 @@ function renderMap()
 	}
 */
 
-
-/*
-in for loop traversing through people:
-new_marker.setPosition(new google.maps.LatLng(lat, lng));
-*/
