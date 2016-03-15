@@ -82,7 +82,7 @@ function parse() {
 				title: data.people[i].login,
 				map: map,
 				icon: student_icon,
-				content: data.people[i].login
+				content: data.people[i].login + "<br> distance from me: " +haversine(data.people[i].lat,data.people[i].lng, myLatitude, myLongitude)
 				});
 
 			google.maps.event.addListener(marker, 'click', function() {
@@ -91,6 +91,8 @@ function parse() {
 			});
 		}
 		
+		var closest_landmark = 1.0;
+		var closest_index = 0;
 		// for loop to loop through landmarks
 		for (var i = 0; i < data.landmarks.length; i++) {
 			// create a marker for each landmark
@@ -100,13 +102,19 @@ function parse() {
 				title: data.landmarks[i].properties.Location_Name,
 				map: map,
 				icon: landmark_icon,
-				content: data.landmarks[i].properties.Details
+				content: data.landmarks[i].properties.Details 
 				});
 			
 			google.maps.event.addListener(marker, 'click', function() {
     			infowindow.setContent(this.content);
    				infowindow.open(map,this);
 			});
+
+			var distance_to_me = haversine(data.landmarks[i].geometry.coordinates[1],data.landmarks[i].geometry.coordinates[0], myLatitude, myLongitude)
+			if (distance_to_me < closest_landmark) {
+				closest_landmark = distance_to_me;
+				closest_index = i;
+			}
 
 		}
 		// my icon
@@ -116,7 +124,7 @@ function parse() {
 			title: "MEOW! IT'S ME!",
 			map: map,
 			icon: my_icon,
-			content: "test"
+			content: "closest landmark: " + data.landmarks[closest_index].properties.Location_Name + "<br> distance from me: " + distance_to_me + " miles"
 		});
 
 		// my info window
@@ -134,43 +142,27 @@ function parse() {
 	}
 }
 
-function addInfoWindow() {
-	infowindow = new google.maps.InfoWindow
+function haversine(lat1, lng1, lat2, lng2)
+{
+	Number.prototype.toRad = function() {
+   		return this * Math.PI / 180;
+	}
+
+	var R = 6371; // km 
+	
+	var x1 = lat2-lat1;
+	var dLat = x1.toRad();  
+	var x2 = lng2-lng1;
+	var dLon = x2.toRad();  
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+	                Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+	                Math.sin(dLon/2) * Math.sin(dLon/2);  
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+	var d = R * c; 
+
+	return d * .621371; // convert to miles
 }
 
-// open info window
-
-//  find closest landmark
-//  haversine formula
 
 
-			/*renderMap();
-		});
-	}
-	else {
-			alert("Geolocation is not supported by your web browser");
-	}
-}
-
-function renderMap()
-	{
-		me = new google.maps.LatLng(myLat, myLng);
-		
-		// Update map and go there...
-		map.panTo(me);
-
-		// Create a marker
-		marker = new google.maps.Marker({
-			position: me,
-			title: "Here I Am!"
-		});
-		marker.setMap(map);
-			
-		// Open info window on click of marker
-		google.maps.event.addListener(marker, 'click', function() {
-			infowindow.setContent(marker.title);
-			infowindow.open(map, marker);
-		});
-	}
-*/
 
