@@ -51,8 +51,8 @@ function parse() {
 
 	// create icons
 	var my_icon = {
-	url: "my_icon_cat.png",
-	scaledSize: new google.maps.Size(30, 30)
+		url: "my_icon_cat.png",
+		scaledSize: new google.maps.Size(30, 30)
 	};
 
 	var student_icon = {
@@ -74,7 +74,6 @@ function parse() {
 		// for loop to loop through people
 		infowindow = new google.maps.InfoWindow();
 		for (var i = 0; i < data.people.length; i++) {
-			console.log("in loop")
 			// create a marker for each person (google API)
 			var people_pos = new google.maps.LatLng(data.people[i].lat,data.people[i].lng)
 			marker = new google.maps.Marker({
@@ -138,6 +137,7 @@ function parse() {
 			{lat: myLatitude, lng: myLongitude},
 			{lat: data.landmarks[closest_index].geometry.coordinates[1], lng: data.landmarks[closest_index].geometry.coordinates[0]}
 		];
+		// create the polyline
 		var line = new google.maps.Polyline({
 				path: myPath,
     			geodesic: true,
@@ -146,9 +146,6 @@ function parse() {
     			strokeWeight: 2,
     			map: map
 		})
-
-		console.log(data);
-		
 		
 	}
 	else if (request.readyState != 4 && request.status != 200) {
