@@ -133,6 +133,20 @@ function parse() {
    				infowindow.open(map,this);
 			});
 
+
+		var myPath = [
+			{lat: myLatitude, lng: myLongitude},
+			{lat: data.landmarks[closest_index].geometry.coordinates[1], lng: data.landmarks[closest_index].geometry.coordinates[0]}
+		];
+		var line = new google.maps.Polyline({
+				path: myPath,
+    			geodesic: true,
+    			strokeColor: '#FF00FF',
+    			strokeOpacity: 1.0,
+    			strokeWeight: 2,
+    			map: map
+		})
+
 		console.log(data);
 		
 		
