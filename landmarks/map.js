@@ -117,13 +117,14 @@ function parse() {
 
 		}
 		// my icon
+		title = "MEOW! IT'S ME!"
 		var my_pos = new google.maps.LatLng(myLatitude, myLongitude)
 		marker = new google.maps.Marker({
 			position: my_pos,
 			title: "MEOW! IT'S ME!",
 			map: map,
 			icon: my_icon,
-			content: "closest landmark: " + data.landmarks[closest_index].properties.Location_Name + "<br> distance from me: " + distance_to_me + " miles"
+			content: title +"<br> closest landmark: " + data.landmarks[closest_index].properties.Location_Name + "<br> distance from me: " + distance_to_me + " miles"
 		});
 
 		// my info window
