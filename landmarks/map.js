@@ -1,21 +1,9 @@
 
-function createMap() {
-	var myLoc = new google.maps.LatLng(-71, 42);
-	var myOptions = {
-			zoom: 10,
-			center: myLoc,
-			mapTypeId:google.maps.MapTypeId.ROADMAP
-
-		};
-
-	map = new google.maps.Map(document.getElementById("map"), myOptions);
-
-};
-/*
 var myLatitude = 0;
 var myLongitude = 0;
 var map;
 var request = new XMLHttpRequest;
+
 
 function getMyLocation() {
 	if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
@@ -23,6 +11,7 @@ function getMyLocation() {
 			myLatitude = position.coords.latitude;
 			myLongitude = position.coords.longitude;
 			initialize();
+			
 		});
 	}
 	else {
@@ -30,6 +19,19 @@ function getMyLocation() {
 	}
 }
 
+function createMap() {
+	var myLoc = new google.maps.LatLng(myLatitude, myLongitude);
+	var myOptions = {
+			zoom: 15,
+			center: myLoc,
+			mapTypeId:google.maps.MapTypeId.ROADMAP
+
+		};
+
+	map = new google.maps.Map(document.getElementById("map"), myOptions);
+	parse();
+
+}
 
 function initialize(){
 
@@ -41,39 +43,27 @@ function initialize(){
 	request.send(myData);
 
 	request.onreadystatechange = createMap;
-}
-
-function createMap() {
-	var myLoc = new google.maps.LatLng(myLatitude, myLongitude);
-	var myOptions = {
-			zoom: 10,
-			center: myLoc,
-			mapTypeId:google.maps.MapTypeId.ROADMAP
-
-		};
-
-	map = new google.maps.Map(document.getElementById("map"), myOptions);
-	parse();
 
 }
 
 
 function parse() {
+
+	// create icons
 	var my_icon = {
 	url: "my_icon_cat.png",
 	scaledSize: new google.maps.Size(30, 30)
 	};
 
-	// create icons
 	var student_icon = {
 		url: "student_icon_dog.png",
-		scaledSize: new google.maps.Size(30, 30)
+		scaledSize: new google.maps.Size(26, 26)
 
 	};
 
 	var landmark_icon = {
-		url: "food_bowl",
-		scaledSize: new google.maps.Size(30, 30)
+		url: "food_bowl.png",
+		scaledSize: new google.maps.Size(32, 32)
 	};
 
 	// get/parse data 
@@ -82,42 +72,70 @@ function parse() {
 		data = JSON.parse(raw);
 		
 		// for loop to loop through people
+		infowindow = new google.maps.InfoWindow();
 		for (var i = 0; i < data.people.length; i++) {
+			console.log("in loop")
 			// create a marker for each person (google API)
+			var people_pos = new google.maps.LatLng(data.people[i].lat,data.people[i].lng)
 			marker = new google.maps.Marker({
-				position: google.maps.LatLng(data.people[i].Latitude,data.people[i].Longitude),
+				position: people_pos,
 				title: data.people[i].login,
 				map: map,
-				icon: student_icon
+				icon: student_icon,
+				content: data.people[i].login
 				});
+
+			google.maps.event.addListener(marker, 'click', function() {
+    			infowindow.setContent(this.content);
+   				infowindow.open(map,this);
+			});
 		}
 		
 		// for loop to loop through landmarks
 		for (var i = 0; i < data.landmarks.length; i++) {
 			// create a marker for each landmark
+			var landmark_pos = new google.maps.LatLng(data.landmarks[i].geometry.coordinates[1],data.landmarks[i].geometry.coordinates[0])
 			marker = new google.maps.Marker({
-				position: google.maps.LatLng(data.landmarks[i].Latitude,data.landmarks[i].Longitude),
+				position: landmark_pos,
 				title: data.landmarks[i].properties.Location_Name,
 				map: map,
-				icon: landmark_icon
+				icon: landmark_icon,
+				content: data.landmarks[i].properties.Details
 				});
-			}
+			
+			google.maps.event.addListener(marker, 'click', function() {
+    			infowindow.setContent(this.content);
+   				infowindow.open(map,this);
+			});
 
-
+		}
+		// my icon
+		var my_pos = new google.maps.LatLng(myLatitude, myLongitude)
 		marker = new google.maps.Marker({
-			position: google.maps.LatLng(myLatitude, myLongitude),
+			position: my_pos,
 			title: "MEOW! IT'S ME!",
 			map: map,
-			icon: my_icon
+			icon: my_icon,
+			content: "test"
 		});
+
+		// my info window
+		google.maps.event.addListener(marker, 'click', function() {
+    			infowindow.setContent(this.content);
+   				infowindow.open(map,this);
+			});
 
 		console.log(data);
 		
 		
 	}
 	else if (request.readyState != 4 && request.status != 200) {
-		elem.innerHTML = "<h2> Whoops, there is something wrong! </h2>"; 
+		 alert("Whoops, there is something wrong!"); 
 	}
+}
+
+function addInfoWindow() {
+	infowindow = new google.maps.InfoWindow
 }
 
 // open info window
