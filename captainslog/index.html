@@ -14,15 +14,12 @@
 	   		if(event.keyCode == 13) {
 	   			store();
 	   		}
-
 	   	});
 
 
 	function store() {
 		txt = $("#msg").val();
-
-		var date = new Date();
-		date = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+		var date = new Date;
 		localStorage[date] = txt;
 		$("#log").prepend("<p>" + date + " - " + localStorage[date] + "</p>");
 	}
