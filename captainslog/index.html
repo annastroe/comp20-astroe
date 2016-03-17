@@ -6,11 +6,13 @@
 	<title>Captain's Log</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<script>
-	  // Your work will be done here...
+		$(document).ready(function(){
+			reload();
+		});
+
 	  $(document).keyup(function(event){
 	   		if(event.keyCode == 13) {
 	   			store();
-
 	   		}
 
 	   	});
@@ -20,32 +22,17 @@
 		txt = $("#msg").val();
 
 		var date = new Date();
-		//localStorage[new Date().getTime()] = txt;
 		date = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 		localStorage[date] = txt;
-		console.log(date);
-		reload();
+		$("#log").prepend("<p>" + date + " - " + localStorage[date] + "</p>");
 	}
 
 	function reload() {
-
 		for (key in localStorage) {
-			
-			output = "<p>" + key + " - " + localStorage[key] + "</p>\n";
-			$("#log").after('<p>' +output+ '</p>')
-			
+			output = "<p>" + key + " - " + localStorage[key] + "</p>\n";	
+			$("#log").prepend(output);
 		}
-		
 	}
-/*
-	function runme() {
-		localStorage.setItem('phrase', 'Bonkers');
-		elem = document.getElementById("header");
-		elem.innerHTML = "<h1>The phrase that pays is " + localStorage['phrase'] + "</h1>";
-	}
-	*/
-
-	
 	
 
 	</script>
