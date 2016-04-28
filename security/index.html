@@ -13,7 +13,7 @@
 
 <body> 
 
-	<h1>  </h1>
+	<h1> Security Assessment of Landmarks </h1>
 
 		<div class="categories">
 		Introduction
@@ -70,25 +70,62 @@
 		(which I was added as a collaborator to). 
 		<br>
 
+		<img src = "hacked.png" class = "pic" alt = "hacked alert">
+
 		<br>
 		This is an issue because the application does not prevent the user input from being read in as javascript, thus altering the site 
-		and creating this popup window. This is of high risk because it could completely compromise the functionality of the site.
+		and creating this popup window. This is of high risk because it could completely compromise the functionality of the site. She should
+		sanitize the input or change < to "& lt;"" and > to "& gt;". To code this, in the portion of her code where she receives the input
+		she could set the input to unsafe_string, then create a new variable safe_string, and set that to 
+		unsafe_str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		<br>
+		And then send the safe string. 
+
 
 
 		<br>
 		<br>
-		Request Injection Attack - moderate
+		<br>
+		<br>
+		Request Injection Attack - moderate risk
+		<br>
 
 		To locate this issue, I entered "login[$ne]=abc" in the checkins.json query. This allowed my to view all the logins to the site (that weren't
 		"abc"). 
 		<br>
+		<br>
+		(Picture excluded for privacy reasons)
+		<br>
+		<br>
+		This is an issue of privacy, as it can allow a hacker to access user data and information. To prevent this, she should sanitize the input for
+		checkin queries in the checkin portion of her code, similarly to the cross site scripting issue.
 
+		<br>
+		<br>
+		<br>
+		<br>
+		HTML Injection - high risk
+		<br>
+
+		To conduct this attack, I entered:
+		<br>
+
+			curl --data "login=window.document.getElementsByTagName('p').innerHTML='<(image url)>'" http://pure-springs-59010.herokuapp.com/sendlocation
+		<br>
+			which inserts HTML code into the page (in this case, an image), clearly affecting the functionality and layout of the site.
+			<br>
+			<img src = "pug.png" class = "pic" alt = "pug picture">
+			<br>
+			While this is HTML, and not javascript, one could handle this prevention in a similar fashion to the others: by sanitizing the inputs (she could check for
+			any non-alphanumeric symbols, for example).
 		<br>
 		<br>
 		<div class="categories">
 		Conclusion
 		</div> <br>
-		
+		Overall, the client has some very high risk security flaws in her web application, but luckily, there are relatively simple (and free) solutions.
+		One future consideration she might consider is having more specified instructions for what user input is allowed to be entered (have more filters),
+		so that the application is further protected from dangerous or nonsensical input. Along this line, she could also consider implementing a verification system for those users submitting checkin information. 
 
 
 		<br>
