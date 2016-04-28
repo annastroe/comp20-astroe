@@ -8,4 +8,4 @@ Identify anyone with whom you have collaborated or discussed the assignment.
 	My partner, Emily, and I collaborated on this assignment to find issues with each others code.
 
 Say approximately how many hours you have spent completing the assignment.
-	I spent approximately 3 hours on this assignment.
+	I spent approximately 4 hours on this assignment.
